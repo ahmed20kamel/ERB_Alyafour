@@ -1,0 +1,16 @@
+# Python
+backend/venv/
+__pycache__/
+*.pyc
+
+# Node (لو موجود)
+frontend/node_modules/
+dist/
+build/
+
+# VS Code
+.vscode/
+
+# نظام التشغيل
+.DS_Store
+Thumbs.db

@@ -1,0 +1,18 @@
+version: "3.9"
+
+services:
+  redis:
+    image: redis:6.2   # خلي بالك هنا نزلناه 6.2 علشان channels_redis
+    ports:
+      - "6379:6379"
+
+  web:
+    build: ./backend
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - DJANGO_SETTINGS_MODULE=erp_system.settings
+    depends_on:
+      - redis

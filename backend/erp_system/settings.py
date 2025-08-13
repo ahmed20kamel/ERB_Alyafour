@@ -1,14 +1,19 @@
 from pathlib import Path
+from datetime import timedelta
+import os
+# =========================
+CSRF_TRUSTED_ORIGINS = ["http://localhost:5173"]
 
+# ✅ Base Directory
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-zfz0bi^i%p(0=!mzh$=p37f&&o-pg4w##61pzkn-#)4@5ocj&5'
-
 DEBUG = True
-
 ALLOWED_HOSTS = []
 
-# Installed apps
+# =========================
+# ✅ Installed Apps
+# =========================
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -17,27 +22,32 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # Third party
+    # Third-party
     'rest_framework',
     'django_filters',
     'corsheaders',
     'channels',
-    "django_extensions",
+    'django_extensions',
 
-    # Local
+    # Local apps
     'core',
     'customers',
     'notifications',
     'accounts',
-    'finance',
-    "approvals",
+    'approvals',
+    'shared',
+    'suppliers',
+    # "inventory",
+
 ]
 
-# Middleware
+# =========================
+# ✅ Middleware
+# =========================
 MIDDLEWARE = [
-    "whitenoise.middleware.WhiteNoiseMiddleware",
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -46,23 +56,48 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# CORS
-CORS_ALLOW_ALL_ORIGINS = True
+# =========================
+# ✅ CORS Settings
+# =========================
+CORS_ALLOW_ALL_ORIGINS = True   # ✅ مؤقتًا أثناء التطوير فقط
+CORS_ALLOW_CREDENTIALS = True
 
-# REST framework
+# =========================
+# ✅ REST Framework
+# =========================
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 25,
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
-    'DEFAULT_FILTER_BACKENDS': [
-        'django_filters.rest_framework.DjangoFilterBackend'
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',   # ✅ أثناء التطوير فقط
     ],
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
-ROOT_URLCONF = 'erp_system.urls'
+# =========================
+# ✅ Simple JWT settings
+# =========================
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=12),     # أو يوم كامل لو حابب
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=30),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': SECRET_KEY,
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+    'TOKEN_OBTAIN_SERIALIZER': 'accounts.serializers.CustomTokenSerializer',
+}
 
+# =========================
+# ✅ Templates
+# =========================
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -78,23 +113,28 @@ TEMPLATES = [
     },
 ]
 
-# ASGI
+# =========================
+# ✅ URL config
+# =========================
+ROOT_URLCONF = 'erp_system.urls'
+WSGI_APPLICATION = 'erp_system.wsgi.application'
 ASGI_APPLICATION = 'erp_system.asgi.application'
 
-# Channels
+# =========================
+# ✅ Channels (Redis)
+# =========================
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("localhost", 6379)]
+            "hosts": [("redis", 6379)],
         },
     },
 }
 
-# WSGI
-WSGI_APPLICATION = 'erp_system.wsgi.application'
-
-# Database
+# =========================
+# ✅ Database
+# =========================
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -102,7 +142,9 @@ DATABASES = {
     }
 }
 
-# Password
+# =========================
+# ✅ Password validation
+# =========================
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -118,37 +160,30 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Internationalization
+# =========================
+# ✅ Localization
+# =========================
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# Static
+# =========================
+# ✅ Static and Media
+# =========================
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_DIRS = [BASE_DIR / "static"]
 
-# Media
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# Default primary key
+# =========================
+# ✅ Default primary key
+# =========================
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# =========================
+# ✅ Custom User model
+# =========================
 AUTH_USER_MODEL = 'accounts.CustomUser'
-from pathlib import Path
-from datetime import timedelta  # ✅ لازم دا
-
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-...
-
-# Custom User Model
-AUTH_USER_MODEL = 'accounts.CustomUser'
-
-# JWT Settings
-SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
-    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
-    'TOKEN_OBTAIN_SERIALIZER': 'accounts.serializers.CustomTokenSerializer',
-}

@@ -10,7 +10,7 @@ from rest_framework.request import Request
 
 from approvals.models import DeleteClientRequest
 from approvals.serializers.approvals.delete_request import DeleteRequestSerializer
-from customers.models import Customer
+from backend.customers.models.models import Customer
 
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync

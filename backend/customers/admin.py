@@ -1,94 +1,101 @@
 from django.contrib import admin
-from customers.models import Customer, OwnerProfile, CompanyProfile, ContactPerson
-from finance.models import BankAccount
+from django import forms
+from customers.models import (
+    Customer, Person, Company,
+    AuthorizedPerson, LegalPerson, ContactPerson
+)
 
 
-# ✅ عرض الحسابات البنكية داخل صفحة العميل
-class BankAccountInline(admin.TabularInline):
-    model = BankAccount
+# ========== Custom Admin Form ==========
+class CustomerAdminForm(forms.ModelForm):
+    class Meta:
+        model = Customer
+        fields = "__all__"
+
+    class Media:
+        js = ("admin/js/customer_type_toggle.js",)
+
+
+# ========== Inlines ==========
+class PersonInline(admin.StackedInline):
+    model = Person
     extra = 0
-    fields = [
-        'bank',
-        'account_holder_name',
-        'account_number',
-        'iban_number',
-        'iban_certificate_attachment'
-    ]
-
-
-# ✅ عرض ملف الشركة داخل العميل (كـ Inline اختياري)
-class CompanyProfileInline(admin.StackedInline):
-    model = CompanyProfile
-    extra = 0
+    max_num = 1
     can_delete = False
-    verbose_name_plural = "Company Profile"
-    fk_name = 'customer'
-    show_change_link = True  # ✅ رابط لصفحة الشركة الكاملة
+    verbose_name_plural = "Owner Info (for owner only)"
+    classes = ["collapse"]
+    fieldset_classes = ["collapse"]
+    template = 'admin/edit_inline/stacked.html'
 
 
-# ✅ عرض ملف المالك داخل العميل
-class OwnerProfileInline(admin.StackedInline):
-    model = OwnerProfile
+class CompanyInline(admin.StackedInline):
+    model = Company
     extra = 0
+    max_num = 1
     can_delete = False
-    verbose_name_plural = "Owner Profile"
-    fk_name = 'customer'
+    verbose_name_plural = "Company Info (for commercial/consultant)"
+    classes = ["collapse"]
+    template = 'admin/edit_inline/stacked.html'
 
 
-# ✅ الأشخاص المتصلين بالشركة داخل ملف الشركة فقط (وليس العميل)
-class ContactPersonInline(admin.TabularInline):
+class AuthorizedPersonInline(admin.StackedInline):
+    model = AuthorizedPerson
+    extra = 1
+    verbose_name_plural = "Authorized Persons (for owner only)"
+    classes = ["collapse"]
+    template = 'admin/edit_inline/stacked.html'
+
+
+class LegalPersonInline(admin.StackedInline):
+    model = LegalPerson
+    extra = 0
+    max_num = 1
+    can_delete = False
+    verbose_name_plural = "Legal Person (for company only)"
+    classes = ["collapse"]
+    template = 'admin/edit_inline/stacked.html'
+
+
+class ContactPersonInline(admin.StackedInline):
     model = ContactPerson
-    extra = 0
-    fields = [
-        'name',
-        'job_title',
-        'email',
-        'phone_number',
-        'whatsapp_number',
-        'is_primary'
-    ]
-    show_change_link = True
+    extra = 1
+    verbose_name_plural = "Contact Persons (for company only)"
+    classes = ["collapse"]
+    template = 'admin/edit_inline/stacked.html'
 
 
-# ✅ إدارة العميل
+# ========== Customer Admin ==========
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
-    list_display = ['full_name_english', 'email', 'customer_type', 'status']
-    search_fields = ['full_name_english', 'email', 'customer_code', 'national_id_number']
-    list_filter = ['customer_type', 'status', 'country']
-    readonly_fields = ['created_at', 'updated_at']
+    form = CustomerAdminForm
 
-    def get_inline_instances(self, request, obj=None):
-        inline_instances = []
-        if obj:
-            if obj.customer_type == 'commercial' or obj.customer_type == 'consultant':
-                inline_instances.append(CompanyProfileInline(self.model, self.admin_site))
-            elif obj.customer_type == 'owner':
-                inline_instances.append(OwnerProfileInline(self.model, self.admin_site))
-            inline_instances.append(BankAccountInline(self.model, self.admin_site))
-        return inline_instances
+    list_display = ["code", "name_en", "customer_type", "status"]
+    readonly_fields = ["code", "created_at", "updated_at"]
 
+    fieldsets = (
+        ("Basic Info", {
+            "fields": (
+                "customer_type", "name_ar", "name_en", "status", "notes"
+            )
+        }),
+        ("Contact Info", {
+            "fields": (
+                "email", "telephone_number", "whatsapp_number", "country", "city", "area"
+            )
+        }),
+        ("Bank Info", {
+            "fields": (
+                "bank", "account_holder_name", "account_number", "iban_number", "iban_certificate"
+            )
+        }),
+        
+    
+    )
 
-# ✅ إدارة ملف المالك (اختياري لو حبيت تفتحه مستقلًا)
-@admin.register(OwnerProfile)
-class OwnerProfileAdmin(admin.ModelAdmin):
-    list_display = ['customer', 'authorized_person_name']
-    search_fields = ['customer__full_name_english', 'authorized_person_name']
-    list_filter = ['gender', 'nationality']
-
-
-# ✅ إدارة ملف الشركة
-@admin.register(CompanyProfile)
-class CompanyProfileAdmin(admin.ModelAdmin):
-    list_display = ['customer', 'responsible_person_name', 'company_trade_license_number']
-    search_fields = ['customer__full_name_english', 'responsible_person_name']
-    list_filter = ['classification']
-    inlines = [ContactPersonInline]  # ✅ مكانها الطبيعي
-
-
-# ✅ إدارة الأشخاص المتصلين بالشركة (كـ Admin مستقل)
-@admin.register(ContactPerson)
-class ContactPersonAdmin(admin.ModelAdmin):
-    list_display = ['name', 'email', 'phone_number', 'company_profile']
-    search_fields = ['name', 'email', 'company_profile__customer__full_name_english']
-    list_filter = ['is_primary']
+    inlines = [
+        PersonInline,
+        CompanyInline,
+        AuthorizedPersonInline,
+        LegalPersonInline,
+        ContactPersonInline
+    ]

@@ -1,7 +1,7 @@
 import pytest
 from django.contrib.auth.models import User, Group
 from rest_framework.test import APIClient
-from customers.models import Customer, DeleteClientRequest
+from backend.customers.models.models import Customer, DeleteClientRequest
 
 
 @pytest.mark.django_db

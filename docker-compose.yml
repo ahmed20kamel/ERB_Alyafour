@@ -1,18 +1,35 @@
-version: "3.9"
-
 services:
-  redis:
-    image: redis:6.2   # خلي بالك هنا نزلناه 6.2 علشان channels_redis
-    ports:
-      - "6379:6379"
-
-  web:
-    build: ./backend
-    volumes:
-      - ./backend:/app
+  backend:
+    build:
+      context: ./backend
+    command: daphne -b 0.0.0.0 -p 8000 erp_system.asgi:application
     ports:
       - "8000:8000"
-    environment:
-      - DJANGO_SETTINGS_MODULE=erp_system.settings
+    volumes:
+      - ./backend:/app
     depends_on:
       - redis
+    environment:
+      - DJANGO_SETTINGS_MODULE=erp_system.settings
+      - PYTHONDONTWRITEBYTECODE=1
+      - PYTHONUNBUFFERED=1
+
+  redis:
+    image: redis:7
+    restart: always
+    ports:
+      - "6379:6379"
+  web:
+    build:
+      context: ./frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+    stdin_open: true
+    tty: true
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - backend
+    command: npm run dev

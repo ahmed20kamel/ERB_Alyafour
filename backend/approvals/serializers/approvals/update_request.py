@@ -1,5 +1,7 @@
 from rest_framework import serializers
-from approvals.models import UpdateRequest  # ✅ تعديل المسار الصحيح بعد نقل الموديل
+from approvals.models import UpdateRequest
+from customers.serializers.customer import CustomerSerializer
+
 
 class UpdateRequestSerializer(serializers.ModelSerializer):
     """
@@ -8,8 +10,12 @@ class UpdateRequestSerializer(serializers.ModelSerializer):
     """
     requested_by_username = serializers.CharField(source="requested_by.username", read_only=True)
     approved_by_username = serializers.CharField(source="approved_by.username", read_only=True)
+
     target_content_type = serializers.SerializerMethodField()
     target_object_repr = serializers.SerializerMethodField()
+
+    # عرض تفاصيل الكائن الهدف (مثلاً عميل)
+    customer_details = serializers.SerializerMethodField()
 
     class Meta:
         model = UpdateRequest
@@ -23,3 +29,9 @@ class UpdateRequestSerializer(serializers.ModelSerializer):
 
     def get_target_object_repr(self, obj):
         return str(obj.target) if obj.target else None
+
+    def get_customer_details(self, obj):
+        from backend.customers.models.models import Customer
+        if isinstance(obj.target, Customer):
+            return CustomerSerializer(obj.target).data
+        return None

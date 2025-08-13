@@ -1,4 +1,4 @@
-# backend/notifications/routing.py
+# notifications/routing.py
 from django.urls import re_path
 from .consumers import NotificationConsumer
 

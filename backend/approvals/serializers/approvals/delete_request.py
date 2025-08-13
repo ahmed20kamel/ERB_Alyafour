@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from approvals.models import DeleteClientRequest
+from customers.serializers.customer import CustomerSerializer  # لو الهدف عميل
+
 
 class DeleteRequestSerializer(serializers.ModelSerializer):
     """
@@ -8,8 +10,13 @@ class DeleteRequestSerializer(serializers.ModelSerializer):
     """
     requested_by_username = serializers.CharField(source="requested_by.username", read_only=True)
     approved_by_username = serializers.CharField(source="approved_by.username", read_only=True)
+
+    # لتحديد نوع الكائن المرتبط
     target_content_type = serializers.SerializerMethodField()
     target_object_repr = serializers.SerializerMethodField()
+
+    # عرض تفاصيل العميل إن وجد
+    customer_details = serializers.SerializerMethodField()
 
     class Meta:
         model = DeleteClientRequest
@@ -23,3 +30,9 @@ class DeleteRequestSerializer(serializers.ModelSerializer):
 
     def get_target_object_repr(self, obj):
         return str(obj.target) if obj.target else None
+
+    def get_customer_details(self, obj):
+        from backend.customers.models.models import Customer
+        if isinstance(obj.target, Customer):
+            return CustomerSerializer(obj.target).data
+        return None

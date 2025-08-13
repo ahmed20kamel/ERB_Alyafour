@@ -1,157 +1,139 @@
+# apps/customers/views.py
 from rest_framework import viewsets, status
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-from rest_framework.decorators import action, api_view
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.parsers import MultiPartParser, FormParser
 from django_filters.rest_framework import DjangoFilterBackend
-from django.utils import timezone
-from django.contrib.contenttypes.models import ContentType
+from rest_framework.decorators import api_view
+from django.utils.timezone import now
+from datetime import timedelta
 
-from customers.models import Customer
-from customers.serializers.customer import CustomerSerializer
-from approvals.models import DeleteClientRequest
-
-# لوك أب موديلات وسيريالايزرز
-from core.models import (
-    Country, City, Nationality, Gender,
-    Currency, CommunicationMethod, Billing, Classification,
+from customers.models import (
+    Customer, Person, Company,
+    AuthorizedPerson, ContactPerson, LegalPerson
 )
-from core.serializers.lookups import (
-    CountrySerializer, CitySerializer, NationalitySerializer, GenderSerializer,
-    CurrencySerializer, CommunicationMethodSerializer, BillingSerializer, ClassificationSerializer
+from customers.serializers import (
+    CustomerSerializer, PersonSerializer, CompanySerializer,
+    AuthorizedPersonSerializer, ContactPersonSerializer, LegalPersonSerializer
 )
 
-from django.db.models import Count
 
-
+# ======================== Customer ========================
 class CustomerViewSet(viewsets.ModelViewSet):
-    queryset = Customer.objects.filter(deleted_at__isnull=True).order_by('-id')
+    queryset = Customer.objects.filter(is_deleted=False).select_related(
+        # شخص المالك
+        "person", "person__gender", "person__nationality",
+        # بيانات الشركة
+        "company",
+        # الشخص القانوني + علاقاته
+        "legal_person", "legal_person__gender", "legal_person__nationality",
+        "legal_person__country", "legal_person__city",
+        # بيانات البنك والموقع
+        "bank", "country", "city"
+    ).prefetch_related("authorized_people", "contact_people")
+
     serializer_class = CustomerSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['customer_type']
+    filterset_fields = ["customer_type", "status"]
+    parser_classes = [MultiPartParser, FormParser]  # مهم لـ FormData
 
     def create(self, request, *args, **kwargs):
+        # تفضل زي ما هي
         serializer = self.get_serializer(data=request.data)
-        if not serializer.is_valid():
-            print("🔴 Serializer Errors:", serializer.errors)
-            return Response(serializer.errors, status=400)
-        self.perform_create(serializer)
-        return Response(serializer.data, status=201)
+        serializer.is_valid(raise_exception=True)
+        customer = serializer.save()
+        return Response(self.get_serializer(customer).data, status=status.HTTP_201_CREATED)
 
-    def destroy(self, request, *args, **kwargs):
-        customer = self.get_object()
+    def update(self, request, *args, **kwargs):
+        """
+        ✅ نعمل PATCH/PUT جزئي بدون ما نمرّر request.data للـ serializer.is_valid(),
+        لأن CustomerSerializer.update أصلاً بيقرأ request.data/FILES ويفكّ المفاتيح المسطّحة.
+        ده بيمنع 400 الناتج عن مفاتيح غير معرّفة في الـ serializer.
+        """
+        partial = kwargs.pop("partial", True)  # خليه partial افتراضيًا
+        instance = self.get_object()
 
-        if customer.delete_requested:
-            return Response({"message": "Delete already requested."}, status=400)
+        # ما نبعتش request.data للـ serializer — نخليه فاضي
+        serializer = self.get_serializer(instance, data={}, partial=partial)
+        serializer.is_valid(raise_exception=False)  # مفيش حاجة تتحقق هنا
 
-        DeleteClientRequest.objects.create(
-            customer=customer,
-            requested_by=request.user
-        )
-
-        customer.delete_requested = True
-        customer.save()
-
-        return Response({"message": "Delete request created, waiting for approval."}, status=202)
-
-    @action(detail=True, methods=["post"])
-    def approve_delete(self, request, pk=None):
-        customer = self.get_object()
-        try:
-            delete_request = DeleteClientRequest.objects.get(customer=customer, status="pending")
-            delete_request.approve(manager_user=request.user)
-            return Response({"message": "Customer deletion approved and soft-deleted."})
-        except DeleteClientRequest.DoesNotExist:
-            return Response({"error": "No pending delete request found."}, status=404)
-        except Exception as e:
-            return Response({"error": str(e)}, status=400)
-
-    @action(detail=True, methods=["post"])
-    def reject_delete(self, request, pk=None):
-        customer = self.get_object()
-        try:
-            delete_request = DeleteClientRequest.objects.get(customer=customer, status="pending")
-            reason = request.data.get("reason", "تم الرفض من CustomerViewSet")
-            delete_request.reject(manager_user=request.user, comment=reason)
-
-            customer.delete_requested = False
-            customer.save()
-
-            return Response({"message": "Customer delete request rejected."})
-        except DeleteClientRequest.DoesNotExist:
-            return Response({"error": "No pending delete request found."}, status=404)
-        except Exception as e:
-            return Response({"error": str(e)}, status=400)
+        instance = serializer.save()  # هيدخل CustomerSerializer.update ويقرأ request.data
+        return Response(self.get_serializer(instance).data, status=status.HTTP_200_OK)
 
 
-# ✅ Lookup ViewSets
-class CountryViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Country.objects.order_by('id')
-    serializer_class = CountrySerializer
-
-class CityViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = City.objects.order_by('id')
-    serializer_class = CitySerializer
-
-class NationalityViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Nationality.objects.order_by('id')
-    serializer_class = NationalitySerializer
-
-class GenderViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Gender.objects.order_by('id')
-    serializer_class = GenderSerializer
-
-class CurrencyViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Currency.objects.order_by('id')
-    serializer_class = CurrencySerializer
-
-class CommunicationMethodViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = CommunicationMethod.objects.order_by('id')
-    serializer_class = CommunicationMethodSerializer
-
-class BillingViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Billing.objects.order_by('id')
-    serializer_class = BillingSerializer
-
-class ClassificationViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Classification.objects.order_by('id')
-    serializer_class = ClassificationSerializer
+# ======================== Person ========================
+class PersonViewSet(viewsets.ModelViewSet):
+    queryset = Person.objects.all()
+    serializer_class = PersonSerializer
+    permission_classes = [AllowAny]
 
 
-@api_view(['GET'])
+# ======================== Company ========================
+class CompanyViewSet(viewsets.ModelViewSet):
+    queryset = Company.objects.all()
+    serializer_class = CompanySerializer
+    permission_classes = [AllowAny]
+
+
+# ======================== Authorized Person ========================
+class AuthorizedPersonViewSet(viewsets.ModelViewSet):
+    serializer_class = AuthorizedPersonSerializer
+    permission_classes = [AllowAny]
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ["customer"]
+
+    def get_queryset(self):
+        customer_id = self.kwargs.get("customer_pk")
+        if customer_id:
+            return AuthorizedPerson.objects.filter(customer_id=customer_id, is_deleted=False).order_by("-id")
+        return AuthorizedPerson.objects.filter(is_deleted=False).order_by("-id")
+
+
+# ======================== Contact Person ========================
+class ContactPersonViewSet(viewsets.ModelViewSet):
+    serializer_class = ContactPersonSerializer
+    permission_classes = [AllowAny]
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ["customer", "is_primary"]
+
+    def get_queryset(self):
+        customer_id = self.kwargs.get("customer_pk")
+        if customer_id:
+            return ContactPerson.objects.filter(customer_id=customer_id, is_deleted=False).order_by("-id")
+        return ContactPerson.objects.filter(is_deleted=False).order_by("-id")
+
+
+# ======================== Legal Person ========================
+class LegalPersonViewSet(viewsets.ModelViewSet):
+    serializer_class = LegalPersonSerializer
+    permission_classes = [AllowAny]
+
+    def get_queryset(self):
+        customer_id = self.kwargs.get("customer_pk")
+        if customer_id:
+            return LegalPerson.objects.filter(customer_id=customer_id)
+        return LegalPerson.objects.all()
+
+
+# ======================== Dashboard Stats Endpoint ========================
+@api_view(["GET"])
 def customer_dashboard_stats(request):
-    one_week_ago = timezone.now() - timezone.timedelta(days=7)
+    total = Customer.objects.filter(is_deleted=False).count()
 
-    total_customers = Customer.objects.filter(deleted_at__isnull=True).count()
-    added_recently_count = Customer.objects.filter(
-        created_at__gte=one_week_ago,
-        deleted_at__isnull=True
-    ).count()
+    last_week = now() - timedelta(days=7)
+    added_recently = Customer.objects.filter(is_deleted=False, created_at__gte=last_week).count()
+    deleted_recently = Customer.objects.filter(is_deleted=True, updated_at__gte=last_week).count()
 
-    deleted_recently_count = Customer.objects.filter(
-        deleted_at__gte=one_week_ago
-    ).count()
-
-    counts = Customer.objects.filter(deleted_at__isnull=True).values('customer_type').annotate(total=Count('id'))
-
-    type_counts = {'owner': 0, 'consultant': 0, 'commercial': 0}
-    for item in counts:
-        type_counts[item['customer_type']] = item['total']
-
-    recently_added = Customer.objects.filter(
-        created_at__gte=one_week_ago,
-        deleted_at__isnull=True
-    ).values('id', 'full_name_english', 'created_at')
-
-    recently_deleted = Customer.objects.filter(
-        deleted_at__gte=one_week_ago
-    ).values('id', 'full_name_english', 'deleted_at')
+    counts_by_type = {
+        "owner": Customer.objects.filter(is_deleted=False, customer_type="owner").count(),
+        "commercial": Customer.objects.filter(is_deleted=False, customer_type="commercial").count(),
+        "consultant": Customer.objects.filter(is_deleted=False, customer_type="consultant").count(),
+    }
 
     return Response({
-        "total_customers": total_customers,
-        "added_recently": added_recently_count,
-        "deleted_recently": deleted_recently_count,
-        "counts_by_type": type_counts,
-        "recently_added": list(recently_added),
-        "recently_deleted": list(recently_deleted),
+        "total_customers": total,
+        "added_recently": added_recently,
+        "deleted_recently": deleted_recently,
+        "counts_by_type": counts_by_type,
     })

@@ -1,4 +1,3 @@
-@'
 # OS
 .DS_Store
 Thumbs.db
@@ -37,21 +36,6 @@ frontend/build/
 # IDE
 .vscode/
 .idea/
-'@ | Set-Content .gitignore -Encoding UTF8
 
-@'
-DEBUG=true
-SECRET_KEY=CHANGE_ME
-TIME_ZONE=Asia/Dubai
-DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1,backend
-CORS_ALLOW_ALL_ORIGINS=true
-CORS_ALLOWED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000,http://localhost:5173,http://127.0.0.1:5173
-CSRF_TRUSTED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000,http://localhost:5173,http://127.0.0.1:5173
-DB_ENGINE=django.db.backends.postgresql
-DB_NAME=erp_system
-DB_USER=postgres
-DB_PASSWORD=CHANGE_ME
-DB_HOST=db
-DB_PORT=5432
-SITE_BASE_URL=http://localhost:8000
-'@ | Set-Content .env.example -Encoding UTF8
+# Allow example env file
+!.env.example

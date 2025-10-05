@@ -18,6 +18,9 @@ venv/
 .env.*
 backend/.env
 frontend/.env
+*.rar
+*.zip
+*.7z
 
 # Django outputs
 backend/media/

@@ -18,7 +18,7 @@ services:
 
       # Hosts/CORS/CSRF
       - key: ALLOWED_HOSTS
-        value: "localhost,127.0.0.1"   # بعد الإنشاء: أضِف دومين Render هنا
+        value: "localhost,127.0.0.1"   # بعد الإنشاء: ضيف دومين Render هنا
       - key: CORS_ALLOW_ALL_ORIGINS
         value: "false"
       - key: CORS_ALLOWED_ORIGINS
@@ -26,11 +26,11 @@ services:
       - key: CSRF_TRUSTED_ORIGINS
         value: "https://erb-frontend.onrender.com"
 
-      # Database (Render سيملأها تلقائيًا)
+      # Database
       - key: DATABASE_URL
         fromDatabase:
           name: erb-postgres
-          property: connectionString
+        property: connectionString
 
       # Redis (Channels)
       - key: REDIS_URL
@@ -51,7 +51,8 @@ services:
     env: docker
     dockerfilePath: backend/Dockerfile
     autoDeploy: true
-    startCommand: >
+    # مع docker لازم نستخدم dockerCommand بدل startCommand
+    dockerCommand: >
       bash -lc "while true; do
         echo '[notifier] running notify_expiring...';
         python manage.py notify_expiring;
@@ -78,6 +79,8 @@ services:
   - type: redis
     name: erb-redis
     plan: free
+    # قائمة السماح بالـ IPs (فاضية = لا وصول خارجي؛ خدمات Render الداخلية فقط)
+    ipAllowList: []
 
   # ===== Frontend (Vite Static Site) =====
   - type: web
@@ -85,7 +88,7 @@ services:
     env: static
     rootDir: frontend
     buildCommand: "npm ci && npm run build"
-    staticPublishPath: "dist"     # ← هنا التعديل بدل publishPath
+    staticPublishPath: "dist"
     autoDeploy: true
     envVars:
       - key: VITE_API_URL

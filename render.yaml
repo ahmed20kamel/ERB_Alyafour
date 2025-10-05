@@ -75,15 +75,16 @@ services:
           property: connectionString
 
   # ===== Frontend (Vite Static Site) =====
-  - type: static
+  - type: web
     name: erb-frontend
+    env: static
     rootDir: frontend
     buildCommand: "npm ci && npm run build"
     publishPath: "dist"
     autoDeploy: true
     envVars:
       - key: VITE_API_URL
-        value: "https://erb-backend.onrender.com"   # حدّثه بعد ما تعرف دومين الباك إند الفعلي
+        value: "https://erb-backend.onrender.com"   # عدّله بعد ما تعرف دومين الباك إند الفعلي
 
 databases:
   - name: erb-postgres

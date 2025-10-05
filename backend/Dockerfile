@@ -7,22 +7,20 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
-# System deps (for psycopg / libpq)
-RUN apt-get update && apt-get install -y build-essential libpq-dev && rm -rf /var/lib/apt/lists/*
+# System deps (psycopg/libpq)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
 
-# Requirements
-COPY backend/requirements.txt /app/requirements.txt
-RUN pip install -r /app/requirements.txt
+# بما إن Root Directory = backend، فالملفات دي موجودة جنب الـ Dockerfile
+COPY requirements.txt /app/requirements.txt
+RUN pip install --no-cache-dir -r /app/requirements.txt
 
-# Project code
-COPY backend /app
+# انسخ كود المشروع كله (من داخل backend)
+COPY . /app
 
-# Render provides PORT at runtime
+# Render/Railway يوفر PORT وقت التشغيل
 ENV PORT=8000
 
-# Run migrations + collectstatic + start ASGI (Daphne)
-CMD bash -lc "\
-    python manage.py migrate --noinput && \
-    python manage.py collectstatic --noinput && \
-    daphne -b 0.0.0.0 -p $PORT erp_system.asgi:application \
-    "
+# شغّل الميجريشن + كوليكت ستاتيك + Daphne (ASGI)
+CMD ["bash","-lc","python manage.py migrate --noinput && python manage.py collectstatic --noinput && daphne -b 0.0.0.0 -p $PORT erp_system.asgi:application"]

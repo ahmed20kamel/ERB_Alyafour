@@ -1,0 +1,95 @@
+# render.yaml
+services:
+  # ===== Backend (Django ASGI via Daphne) =====
+  - type: web
+    name: erb-backend
+    env: docker
+    plan: free
+    dockerfilePath: backend/Dockerfile
+    autoDeploy: true
+    envVars:
+      # Core
+      - key: DEBUG
+        value: "false"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: TIME_ZONE
+        value: "Asia/Dubai"
+
+      # Hosts/CORS/CSRF (نفس أسماء المتغيرات في settings.py)
+      - key: ALLOWED_HOSTS
+        value: "localhost,127.0.0.1"   # بعد الإنشاء: أضِف دومين Render هنا
+      - key: CORS_ALLOW_ALL_ORIGINS
+        value: "false"
+      - key: CORS_ALLOWED_ORIGINS
+        value: "https://erb-frontend.onrender.com"
+      - key: CSRF_TRUSTED_ORIGINS
+        value: "https://erb-frontend.onrender.com"
+
+      # Database (الطريقة الأسهل)
+      - key: DATABASE_URL
+        fromDatabase:
+          name: erb-postgres
+          property: connectionString
+
+      # Redis لِـ Channels/WebSockets
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: erb-redis
+          property: connectionString
+
+      # (اختياري) لو بتستخدمه في روابط خارجية
+      - key: SITE_BASE_URL
+        value: "https://erb-backend.onrender.com"
+
+    healthCheckPath: "/admin/login"
+
+  # ===== Worker (notifier loop كل 15 دقيقة) =====
+  - type: worker
+    name: erb-notifier
+    env: docker
+    dockerfilePath: backend/Dockerfile
+    autoDeploy: true
+    startCommand: >
+      bash -lc "while true; do
+        echo '[notifier] running notify_expiring...';
+        python manage.py notify_expiring;
+        sleep 900;
+      done"
+    envVars:
+      - key: DEBUG
+        value: "false"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: TIME_ZONE
+        value: "Asia/Dubai"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: erb-postgres
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: erb-redis
+          property: connectionString
+
+  # ===== Frontend (Vite Static Site) =====
+  - type: static_site
+    name: erb-frontend
+    env: static
+    rootDir: frontend
+    buildCommand: "npm ci && npm run build"
+    publishPath: "dist"
+    autoDeploy: true
+    envVars:
+      - key: VITE_API_URL
+        value: "https://erb-backend.onrender.com"   # حدّثه بعد ما تعرف دومين الباك إند الفعلي
+
+databases:
+  - name: erb-postgres
+    plan: free
+
+redis:
+  - name: erb-redis
+    plan: free

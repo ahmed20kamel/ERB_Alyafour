@@ -1,24 +1,28 @@
 # backend/Dockerfile
-FROM python:3.12
+FROM python:3.11-slim
 
-# سرّع pip و زوّد مهلة التحميل
-ENV PIP_NO_CACHE_DIR=1 \
-    PIP_DEFAULT_TIMEOUT=120 \
-    PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1
 
 WORKDIR /app
 
-# ✅ PostgreSQL client عشان pg_isready يشتغل في الـ compose
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends postgresql-client \
-    && rm -rf /var/lib/apt/lists/*
+# System deps (for psycopg / libpq)
+RUN apt-get update && apt-get install -y build-essential libpq-dev && rm -rf /var/lib/apt/lists/*
 
-# المتطلبات
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Requirements
+COPY backend/requirements.txt /app/requirements.txt
+RUN pip install -r /app/requirements.txt
 
-# كود المشروع
-COPY . .
+# Project code
+COPY backend /app
 
-# نشغّل عبر compose command (هينتظر DB ويعمل migrate)
+# Render provides PORT at runtime
+ENV PORT=8000
+
+# Run migrations + collectstatic + start ASGI (Daphne)
+CMD bash -lc "\
+    python manage.py migrate --noinput && \
+    python manage.py collectstatic --noinput && \
+    daphne -b 0.0.0.0 -p $PORT erp_system.asgi:application \
+    "

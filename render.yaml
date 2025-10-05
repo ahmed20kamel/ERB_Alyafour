@@ -26,17 +26,10 @@ services:
       - key: CSRF_TRUSTED_ORIGINS
         value: "https://erb-frontend.onrender.com"
 
-      # Database (FIX: property داخل fromDatabase)
+      # Database (Render سيملأها تلقائيًا)
       - key: DATABASE_URL
         fromDatabase:
           name: erb-postgres
-          property: connectionString
-
-      # Redis (Channels)
-      - key: REDIS_URL
-        fromService:
-          type: redis
-          name: erb-redis
           property: connectionString
 
       # اختياري
@@ -51,7 +44,6 @@ services:
     env: docker
     dockerfilePath: backend/Dockerfile
     autoDeploy: true
-    # Docker runtime: استخدم dockerCommand
     dockerCommand: >
       bash -lc "while true; do
         echo '[notifier] running notify_expiring...';
@@ -69,17 +61,6 @@ services:
         fromDatabase:
           name: erb-postgres
           property: connectionString
-      - key: REDIS_URL
-        fromService:
-          type: redis
-          name: erb-redis
-          property: connectionString
-
-  # ===== Redis (Managed) =====
-  - type: redis
-    name: erb-redis
-    plan: free
-    ipAllowList: []   # خدمات Render فقط
 
   # ===== Frontend (Vite Static Site) =====
   - type: web

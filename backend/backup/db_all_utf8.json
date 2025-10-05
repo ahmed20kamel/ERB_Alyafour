@@ -1,0 +1,793 @@
+﻿[
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$wPq5DGo17XUnOHvlubTwiQ$4BohRlJ5YclfVBWOe3WE4k7RlrREE6TF33mmUT2PkN8=",
+    "last_login": "2025-09-15T13:08:10.298Z",
+    "is_superuser": true,
+    "username": "ahmed",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-09-07T06:28:16.288Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$j25U6zAlzBb6P1BXIl5vmZ$hyYG12JLwzaxRy/82M1WxgDpXr51NQnQ+NAFKtazwXY=",
+    "last_login": "2025-09-11T07:10:11.847Z",
+    "is_superuser": true,
+    "username": "ali",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-09-07T07:51:30.119Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$zJFCPOMQ3WcYLlneexwg8D$xF1lmRs1MkCi4vM04olulzfWKPgf3z4OyNCE5E8VWqI=",
+    "last_login": "2025-09-07T10:27:39.866Z",
+    "is_superuser": false,
+    "username": "Laarnie",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-09-07T10:24:15Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "files.category",
+  "pk": 7,
+  "fields": {
+    "name": "ILOE",
+    "color": "secondary"
+  }
+},
+{
+  "model": "files.category",
+  "pk": 8,
+  "fields": {
+    "name": "TENANCY CONTRACT",
+    "color": "secondary"
+  }
+},
+{
+  "model": "files.category",
+  "pk": 9,
+  "fields": {
+    "name": "ESTABLISHMENT CARD",
+    "color": "secondary"
+  }
+},
+{
+  "model": "files.category",
+  "pk": 10,
+  "fields": {
+    "name": "TAX REGISTRATION NUMBER / VAT",
+    "color": "secondary"
+  }
+},
+{
+  "model": "files.category",
+  "pk": 11,
+  "fields": {
+    "name": "PRACTICING LICENSE",
+    "color": "secondary"
+  }
+},
+{
+  "model": "files.category",
+  "pk": 12,
+  "fields": {
+    "name": "TRADE LICENSE",
+    "color": "secondary"
+  }
+},
+{
+  "model": "files.category",
+  "pk": 13,
+  "fields": {
+    "name": "IBAN CERTIFICATE",
+    "color": "secondary"
+  }
+},
+{
+  "model": "files.category",
+  "pk": 14,
+  "fields": {
+    "name": "OPERATING LICENSE",
+    "color": "secondary"
+  }
+},
+{
+  "model": "files.category",
+  "pk": 15,
+  "fields": {
+    "name": "ABU DHABI CHAMBER",
+    "color": "secondary"
+  }
+},
+{
+  "model": "files.category",
+  "pk": 16,
+  "fields": {
+    "name": "PORTAL REGISTRATION",
+    "color": "secondary"
+  }
+},
+{
+  "model": "files.category",
+  "pk": 17,
+  "fields": {
+    "name": "DAFTRA",
+    "color": "secondary"
+  }
+},
+{
+  "model": "files.category",
+  "pk": 18,
+  "fields": {
+    "name": "DAMAN HEALTH INSURANCE",
+    "color": "secondary"
+  }
+},
+{
+  "model": "files.category",
+  "pk": 19,
+  "fields": {
+    "name": "FAB KYC",
+    "color": "secondary"
+  }
+},
+{
+  "model": "files.category",
+  "pk": 20,
+  "fields": {
+    "name": "FBMS",
+    "color": "secondary"
+  }
+},
+{
+  "model": "files.category",
+  "pk": 21,
+  "fields": {
+    "name": "ICA EST UPDATE",
+    "color": "secondary"
+  }
+},
+{
+  "model": "files.category",
+  "pk": 22,
+  "fields": {
+    "name": "ICA SUBSCRIPTION",
+    "color": "secondary"
+  }
+},
+{
+  "model": "files.category",
+  "pk": 23,
+  "fields": {
+    "name": "MOA",
+    "color": "secondary"
+  }
+},
+{
+  "model": "files.category",
+  "pk": 24,
+  "fields": {
+    "name": "PROJECT INSURANCE",
+    "color": "secondary"
+  }
+},
+{
+  "model": "files.category",
+  "pk": 25,
+  "fields": {
+    "name": "SPA",
+    "color": "secondary"
+  }
+},
+{
+  "model": "files.category",
+  "pk": 26,
+  "fields": {
+    "name": "WORKMEN'S COMPENSATION",
+    "color": "secondary"
+  }
+},
+{
+  "model": "files.document",
+  "pk": 16,
+  "fields": {
+    "title": "BABUL HOSSAIN ZIARATULLA KHAMARU",
+    "file": "",
+    "category": 7,
+    "owner_email": "info@alyafour.com",
+    "expires_on": "2027-06-08",
+    "alert_window_days": 7,
+    "notes": "note",
+    "created_at": "2025-09-07T11:01:15.482Z",
+    "updated_at": "2025-09-07T11:01:15.482Z",
+    "last_notified_on": null,
+    "last_notified_for_expires_on": null,
+    "last_notified_for_offset": null
+  }
+},
+{
+  "model": "files.document",
+  "pk": 17,
+  "fields": {
+    "title": "MD ASHAD ALI MD SHADIKUR RAHMAN",
+    "file": "",
+    "category": 7,
+    "owner_email": "info@alyafour.com",
+    "expires_on": "2027-05-01",
+    "alert_window_days": 7,
+    "notes": "note",
+    "created_at": "2025-09-07T11:01:15.492Z",
+    "updated_at": "2025-09-07T11:01:15.492Z",
+    "last_notified_on": null,
+    "last_notified_for_expires_on": null,
+    "last_notified_for_offset": null
+  }
+},
+{
+  "model": "files.document",
+  "pk": 18,
+  "fields": {
+    "title": "ISLAM MAKRAM MOHAMED AHMED",
+    "file": "",
+    "category": 7,
+    "owner_email": "info@alyafour.com",
+    "expires_on": "2026-06-18",
+    "alert_window_days": 7,
+    "notes": "note",
+    "created_at": "2025-09-07T11:01:15.499Z",
+    "updated_at": "2025-09-07T11:01:15.499Z",
+    "last_notified_on": null,
+    "last_notified_for_expires_on": null,
+    "last_notified_for_offset": null
+  }
+},
+{
+  "model": "files.document",
+  "pk": 19,
+  "fields": {
+    "title": "MUHAMMAD SULEMAN MUHAMMAD RAMZAN",
+    "file": "",
+    "category": 7,
+    "owner_email": "info@alyafour.com",
+    "expires_on": "2027-05-09",
+    "alert_window_days": 7,
+    "notes": "note",
+    "created_at": "2025-09-07T11:01:15.508Z",
+    "updated_at": "2025-09-07T11:01:15.508Z",
+    "last_notified_on": null,
+    "last_notified_for_expires_on": null,
+    "last_notified_for_offset": null
+  }
+},
+{
+  "model": "files.document",
+  "pk": 20,
+  "fields": {
+    "title": "TAZAMMAL HUSSAIN MUHAMMAD AYUB",
+    "file": "",
+    "category": 7,
+    "owner_email": "info@alyafour.com",
+    "expires_on": "2027-06-12",
+    "alert_window_days": 7,
+    "notes": "note",
+    "created_at": "2025-09-07T11:01:15.516Z",
+    "updated_at": "2025-09-07T11:01:15.516Z",
+    "last_notified_on": null,
+    "last_notified_for_expires_on": null,
+    "last_notified_for_offset": null
+  }
+},
+{
+  "model": "files.document",
+  "pk": 21,
+  "fields": {
+    "title": "GURMEL SINGH SARWAN SINGH",
+    "file": "",
+    "category": 7,
+    "owner_email": "info@alyafour.com",
+    "expires_on": "2026-02-19",
+    "alert_window_days": 7,
+    "notes": "note",
+    "created_at": "2025-09-07T11:01:15.526Z",
+    "updated_at": "2025-09-07T11:01:15.526Z",
+    "last_notified_on": null,
+    "last_notified_for_expires_on": null,
+    "last_notified_for_offset": null
+  }
+},
+{
+  "model": "files.document",
+  "pk": 22,
+  "fields": {
+    "title": "MOHAMMED ATTAULLAH SHANAWAZ SHANAWAZ ABDULKUDHUS",
+    "file": "",
+    "category": 7,
+    "owner_email": "info@alyafour.com",
+    "expires_on": "2027-08-26",
+    "alert_window_days": 7,
+    "notes": "note",
+    "created_at": "2025-09-07T11:01:15.533Z",
+    "updated_at": "2025-09-07T11:01:15.533Z",
+    "last_notified_on": null,
+    "last_notified_for_expires_on": null,
+    "last_notified_for_offset": null
+  }
+},
+{
+  "model": "files.document",
+  "pk": 23,
+  "fields": {
+    "title": "ABBAS KHAN NAIB KHAN",
+    "file": "",
+    "category": 7,
+    "owner_email": "info@alyafour.com",
+    "expires_on": "2027-07-04",
+    "alert_window_days": 7,
+    "notes": "note",
+    "created_at": "2025-09-07T11:01:15.541Z",
+    "updated_at": "2025-09-07T11:01:15.541Z",
+    "last_notified_on": null,
+    "last_notified_for_expires_on": null,
+    "last_notified_for_offset": null
+  }
+},
+{
+  "model": "files.document",
+  "pk": 24,
+  "fields": {
+    "title": "RAJU SHERAJ SHERAJ",
+    "file": "",
+    "category": 7,
+    "owner_email": "info@alyafour.com",
+    "expires_on": "2027-05-09",
+    "alert_window_days": 7,
+    "notes": "note",
+    "created_at": "2025-09-07T11:01:15.549Z",
+    "updated_at": "2025-09-07T11:01:15.549Z",
+    "last_notified_on": null,
+    "last_notified_for_expires_on": null,
+    "last_notified_for_offset": null
+  }
+},
+{
+  "model": "files.document",
+  "pk": 25,
+  "fields": {
+    "title": "GHAITH HAYDER ADNAN",
+    "file": "",
+    "category": 7,
+    "owner_email": "info@alyafour.com",
+    "expires_on": "2027-05-15",
+    "alert_window_days": 7,
+    "notes": "note",
+    "created_at": "2025-09-07T11:01:15.556Z",
+    "updated_at": "2025-09-07T11:01:15.556Z",
+    "last_notified_on": null,
+    "last_notified_for_expires_on": null,
+    "last_notified_for_offset": null
+  }
+},
+{
+  "model": "files.document",
+  "pk": 26,
+  "fields": {
+    "title": "GHISARAM MATURAM",
+    "file": "",
+    "category": 7,
+    "owner_email": "info@alyafour.com",
+    "expires_on": "2027-04-30",
+    "alert_window_days": 7,
+    "notes": "note",
+    "created_at": "2025-09-07T11:01:15.565Z",
+    "updated_at": "2025-09-07T11:01:15.565Z",
+    "last_notified_on": null,
+    "last_notified_for_expires_on": null,
+    "last_notified_for_offset": null
+  }
+},
+{
+  "model": "files.document",
+  "pk": 27,
+  "fields": {
+    "title": "SAHAJAN SEKH SEKH AHED ALI",
+    "file": "",
+    "category": 7,
+    "owner_email": "info@alyafour.com",
+    "expires_on": "2027-04-23",
+    "alert_window_days": 7,
+    "notes": "note",
+    "created_at": "2025-09-07T11:01:15.572Z",
+    "updated_at": "2025-09-07T11:01:15.572Z",
+    "last_notified_on": null,
+    "last_notified_for_expires_on": null,
+    "last_notified_for_offset": null
+  }
+},
+{
+  "model": "files.document",
+  "pk": 28,
+  "fields": {
+    "title": "YAM BAHADUR MAGAR BIR BAHADUR MAGAR",
+    "file": "",
+    "category": 7,
+    "owner_email": "info@alyafour.com",
+    "expires_on": "2027-05-13",
+    "alert_window_days": 7,
+    "notes": "note",
+    "created_at": "2025-09-07T11:01:15.580Z",
+    "updated_at": "2025-09-07T11:01:15.580Z",
+    "last_notified_on": null,
+    "last_notified_for_expires_on": null,
+    "last_notified_for_offset": null
+  }
+},
+{
+  "model": "files.document",
+  "pk": 29,
+  "fields": {
+    "title": "HAYDER ADNAN KHUDHAIR KHUDHAIR",
+    "file": "",
+    "category": 7,
+    "owner_email": "info@alyafour.com",
+    "expires_on": "2025-09-12",
+    "alert_window_days": 7,
+    "notes": "note",
+    "created_at": "2025-09-07T11:01:15.587Z",
+    "updated_at": "2025-09-07T11:01:15.587Z",
+    "last_notified_on": "2025-09-07",
+    "last_notified_for_expires_on": null,
+    "last_notified_for_offset": null
+  }
+},
+{
+  "model": "files.document",
+  "pk": 30,
+  "fields": {
+    "title": "MOUSTAFA BEDIR ALY ELZAIAT",
+    "file": "",
+    "category": 7,
+    "owner_email": "info@alyafour.com",
+    "expires_on": "2027-05-20",
+    "alert_window_days": 7,
+    "notes": "note",
+    "created_at": "2025-09-07T11:01:20.765Z",
+    "updated_at": "2025-09-07T11:01:20.765Z",
+    "last_notified_on": null,
+    "last_notified_for_expires_on": null,
+    "last_notified_for_offset": null
+  }
+},
+{
+  "model": "files.document",
+  "pk": 31,
+  "fields": {
+    "title": "RASHEDUL HOQUE HAMIDUL HOQUE",
+    "file": "",
+    "category": 7,
+    "owner_email": "info@alyafour.com",
+    "expires_on": "2027-06-01",
+    "alert_window_days": 7,
+    "notes": "note",
+    "created_at": "2025-09-07T11:01:20.775Z",
+    "updated_at": "2025-09-07T11:01:20.775Z",
+    "last_notified_on": null,
+    "last_notified_for_expires_on": null,
+    "last_notified_for_offset": null
+  }
+},
+{
+  "model": "files.document",
+  "pk": 32,
+  "fields": {
+    "title": "MUHAMMAD AKHTAR MAQSOOD AHMED",
+    "file": "",
+    "category": 7,
+    "owner_email": "info@alyafour.com",
+    "expires_on": "2027-06-05",
+    "alert_window_days": 7,
+    "notes": "note",
+    "created_at": "2025-09-07T11:01:20.781Z",
+    "updated_at": "2025-09-07T11:01:20.781Z",
+    "last_notified_on": null,
+    "last_notified_for_expires_on": null,
+    "last_notified_for_offset": null
+  }
+},
+{
+  "model": "files.document",
+  "pk": 33,
+  "fields": {
+    "title": "MOHAMMAD ABU TAHER KHAN MAFJAL AHAMAD KHAN",
+    "file": "",
+    "category": 7,
+    "owner_email": "info@alyafour.com",
+    "expires_on": "2027-05-10",
+    "alert_window_days": 7,
+    "notes": "note",
+    "created_at": "2025-09-07T11:01:20.789Z",
+    "updated_at": "2025-09-07T11:01:20.789Z",
+    "last_notified_on": null,
+    "last_notified_for_expires_on": null,
+    "last_notified_for_offset": null
+  }
+},
+{
+  "model": "files.document",
+  "pk": 34,
+  "fields": {
+    "title": "BHIM BAHADUR GURUNG",
+    "file": "",
+    "category": 7,
+    "owner_email": "info@alyafour.com",
+    "expires_on": "2027-05-11",
+    "alert_window_days": 7,
+    "notes": "note",
+    "created_at": "2025-09-07T11:01:20.798Z",
+    "updated_at": "2025-09-07T11:01:20.798Z",
+    "last_notified_on": null,
+    "last_notified_for_expires_on": null,
+    "last_notified_for_offset": null
+  }
+},
+{
+  "model": "files.document",
+  "pk": 35,
+  "fields": {
+    "title": "LAARNIE MENTO SANDAY",
+    "file": "",
+    "category": 7,
+    "owner_email": "info@alyafour.com",
+    "expires_on": "2026-04-20",
+    "alert_window_days": 7,
+    "notes": "note",
+    "created_at": "2025-09-07T11:01:20.805Z",
+    "updated_at": "2025-09-07T11:01:20.805Z",
+    "last_notified_on": null,
+    "last_notified_for_expires_on": null,
+    "last_notified_for_offset": null
+  }
+},
+{
+  "model": "files.document",
+  "pk": 36,
+  "fields": {
+    "title": "ABDUL CADER MOHAMMED JIFFRY",
+    "file": "",
+    "category": 7,
+    "owner_email": "info@alyafour.com",
+    "expires_on": "2026-09-19",
+    "alert_window_days": 7,
+    "notes": "note",
+    "created_at": "2025-09-07T11:01:20.813Z",
+    "updated_at": "2025-09-07T11:01:20.813Z",
+    "last_notified_on": null,
+    "last_notified_for_expires_on": null,
+    "last_notified_for_offset": null
+  }
+},
+{
+  "model": "files.document",
+  "pk": 37,
+  "fields": {
+    "title": "ABUL KASHEM ABUL HOSSAIN",
+    "file": "",
+    "category": 7,
+    "owner_email": "info@alyafour.com",
+    "expires_on": "2027-05-10",
+    "alert_window_days": 7,
+    "notes": "note",
+    "created_at": "2025-09-07T11:01:20.820Z",
+    "updated_at": "2025-09-07T11:01:20.820Z",
+    "last_notified_on": null,
+    "last_notified_for_expires_on": null,
+    "last_notified_for_offset": null
+  }
+},
+{
+  "model": "files.document",
+  "pk": 38,
+  "fields": {
+    "title": "SALIL SHANAVAZ MOHAMMED SHANAVAZ PALLIKKALAKATH",
+    "file": "",
+    "category": 7,
+    "owner_email": "info@alyafour.com",
+    "expires_on": "2026-04-13",
+    "alert_window_days": 7,
+    "notes": "note",
+    "created_at": "2025-09-07T11:01:20.829Z",
+    "updated_at": "2025-09-07T11:01:20.829Z",
+    "last_notified_on": null,
+    "last_notified_for_expires_on": null,
+    "last_notified_for_offset": null
+  }
+},
+{
+  "model": "files.document",
+  "pk": 39,
+  "fields": {
+    "title": "MAIN UDDIN ABDUR SOBUN",
+    "file": "",
+    "category": 7,
+    "owner_email": "info@alyafour.com",
+    "expires_on": "2027-04-16",
+    "alert_window_days": 7,
+    "notes": "note",
+    "created_at": "2025-09-07T11:01:20.837Z",
+    "updated_at": "2025-09-07T11:01:20.837Z",
+    "last_notified_on": null,
+    "last_notified_for_expires_on": null,
+    "last_notified_for_offset": null
+  }
+},
+{
+  "model": "files.document",
+  "pk": 40,
+  "fields": {
+    "title": "MD SUFIAN SHAH SOFOR SHAH",
+    "file": "",
+    "category": 7,
+    "owner_email": "info@alyafour.com",
+    "expires_on": "2027-05-10",
+    "alert_window_days": 7,
+    "notes": "note",
+    "created_at": "2025-09-07T11:01:20.847Z",
+    "updated_at": "2025-09-07T11:01:20.847Z",
+    "last_notified_on": null,
+    "last_notified_for_expires_on": null,
+    "last_notified_for_offset": null
+  }
+},
+{
+  "model": "files.document",
+  "pk": 41,
+  "fields": {
+    "title": "SEEFALDEEN HAYDER ADNAN",
+    "file": "",
+    "category": 7,
+    "owner_email": "info@alyafour.com",
+    "expires_on": "2026-05-15",
+    "alert_window_days": 7,
+    "notes": "note",
+    "created_at": "2025-09-07T11:01:20.854Z",
+    "updated_at": "2025-09-07T11:01:20.854Z",
+    "last_notified_on": null,
+    "last_notified_for_expires_on": null,
+    "last_notified_for_offset": null
+  }
+},
+{
+  "model": "files.document",
+  "pk": 42,
+  "fields": {
+    "title": "NASEEM ABID ABID HUSSAIN",
+    "file": "",
+    "category": 7,
+    "owner_email": "info@alyafour.com",
+    "expires_on": "2026-10-23",
+    "alert_window_days": 7,
+    "notes": "note",
+    "created_at": "2025-09-07T11:01:20.862Z",
+    "updated_at": "2025-09-07T11:01:20.862Z",
+    "last_notified_on": null,
+    "last_notified_for_expires_on": null,
+    "last_notified_for_offset": null
+  }
+},
+{
+  "model": "files.document",
+  "pk": 43,
+  "fields": {
+    "title": "MUHAMMAD ISHTIAQ PANNUN PANNUN KHAN",
+    "file": "",
+    "category": 7,
+    "owner_email": "info@alyafour.com",
+    "expires_on": "2027-06-08",
+    "alert_window_days": 7,
+    "notes": "note",
+    "created_at": "2025-09-07T11:01:20.870Z",
+    "updated_at": "2025-09-07T11:01:20.870Z",
+    "last_notified_on": null,
+    "last_notified_for_expires_on": null,
+    "last_notified_for_offset": null
+  }
+},
+{
+  "model": "files.document",
+  "pk": 44,
+  "fields": {
+    "title": "MUHAMMAD AHSAN JANIS KHAN",
+    "file": "",
+    "category": 7,
+    "owner_email": "info@alyafour.com",
+    "expires_on": "2025-09-12",
+    "alert_window_days": 7,
+    "notes": "note",
+    "created_at": "2025-09-07T11:01:20.879Z",
+    "updated_at": "2025-09-07T11:01:20.879Z",
+    "last_notified_on": "2025-09-07",
+    "last_notified_for_expires_on": null,
+    "last_notified_for_offset": null
+  }
+},
+{
+  "model": "files.document",
+  "pk": 45,
+  "fields": {
+    "title": "AZAD MD MANNAN MONDOL",
+    "file": "",
+    "category": 7,
+    "owner_email": "info@alyafour.com",
+    "expires_on": "2027-04-24",
+    "alert_window_days": 7,
+    "notes": "note",
+    "created_at": "2025-09-07T11:01:23.426Z",
+    "updated_at": "2025-09-07T11:01:23.426Z",
+    "last_notified_on": null,
+    "last_notified_for_expires_on": null,
+    "last_notified_for_offset": null
+  }
+},
+{
+  "model": "files.document",
+  "pk": 46,
+  "fields": {
+    "title": "AHMED KAMEL SAAD AMIN",
+    "file": "",
+    "category": 7,
+    "owner_email": "info@alyafour.com",
+    "expires_on": "2026-10-23",
+    "alert_window_days": 7,
+    "notes": "note",
+    "created_at": "2025-09-07T11:01:23.437Z",
+    "updated_at": "2025-09-07T11:01:23.437Z",
+    "last_notified_on": null,
+    "last_notified_for_expires_on": null,
+    "last_notified_for_offset": null
+  }
+},
+{
+  "model": "files.document",
+  "pk": 47,
+  "fields": {
+    "title": "VINOD KUMAR BALAI GIRDHARI BALAI",
+    "file": "",
+    "category": 13,
+    "owner_email": "info@alyafour.com",
+    "expires_on": "2026-06-12",
+    "alert_window_days": 7,
+    "notes": "",
+    "created_at": "2025-09-07T11:11:54.416Z",
+    "updated_at": "2025-09-07T11:11:54.416Z",
+    "last_notified_on": null,
+    "last_notified_for_expires_on": null,
+    "last_notified_for_offset": null
+  }
+}
+]
+

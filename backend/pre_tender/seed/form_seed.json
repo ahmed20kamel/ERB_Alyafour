@@ -1,0 +1,502 @@
+{
+  "template_title": "Company Pre-Tender Form",
+  "sections": [
+    {
+      "title": "Project Details",
+      "order": 1,
+      "fields": [
+        {
+          "label": "Emirate",
+          "key": "emirate",
+          "type": "select",
+          "required": true,
+          "order": 1,
+          "options": [
+            { "value": "abudhabi", "label": "Abu Dhabi" },
+            { "value": "dubai", "label": "Dubai" },
+            { "value": "sharjah", "label": "Sharjah" }
+          ]
+        },
+        {
+          "label": "Area",
+          "key": "area",
+          "type": "select",
+          "required": true,
+          "order": 2,
+          "options": [
+            { "value": "area1", "label": "Area 1" },
+            { "value": "area2", "label": "Area 2" }
+          ]
+        },
+        {
+          "label": "Sector Number",
+          "key": "sector_number",
+          "type": "text",
+          "required": false,
+          "order": 3
+        },
+
+        {
+          "label": "Plot Number",
+          "key": "plot_number",
+          "type": "text",
+          "required": false,
+          "order": 4
+        },
+        {
+          "label": "PROJECT NAME",
+          "key": "project_name",
+          "type": "text",
+          "required": true,
+          "order": 5
+        },
+        {
+          "label": "PROJECT LOCATION LINK",
+          "key": "project_location_link",
+          "type": "text",
+          "required": false,
+          "order": 6
+        },
+
+        {
+          "label": "PROJECT NUMBER",
+          "key": "project_number",
+          "type": "text",
+          "required": false,
+          "order": 7
+        },
+        {
+          "label": "Project ID",
+          "key": "project_id",
+          "type": "text",
+          "required": false,
+          "order": 8
+        },
+        {
+          "label": "DASD",
+          "key": "dasd",
+          "type": "text",
+          "required": false,
+          "order": 9
+        },
+
+        {
+          "label": "Project Consultant",
+          "key": "project_consultant",
+          "type": "select",
+          "required": false,
+          "order": 10,
+          "options": [
+            { "value": "cons_a", "label": "Consultant A" },
+            { "value": "cons_b", "label": "Consultant B" }
+          ]
+        }
+      ]
+    },
+
+    {
+      "title": "Pre Tender Timeline",
+      "order": 2,
+      "fields": [
+        {
+          "label": "Pre Tender Deadline",
+          "key": "pre_tender_deadline",
+          "type": "date",
+          "required": false,
+          "order": 1
+        }
+      ]
+    },
+
+    {
+      "title": "Project Areas",
+      "order": 3,
+      "fields": [
+        {
+          "label": "PROJECT AREA (Main/Sub/Unit/Qty)",
+          "key": "project_areas",
+          "type": "table",
+          "required": false,
+          "order": 1,
+          "config": {
+            "columns": [
+              {
+                "key": "main_area",
+                "label": "Main Area",
+                "type": "select",
+                "options": [
+                  { "value": "built_up", "label": "Built-up Area" },
+                  { "value": "external_work", "label": "External work" },
+                  { "value": "boundary_wall", "label": "Boundary Wall" },
+                  { "value": "wet_area", "label": "WET AREA" },
+                  { "value": "dry_area", "label": "DRY AREA" }
+                ]
+              },
+              {
+                "key": "sub_area",
+                "label": "Sub Area",
+                "type": "select",
+                "options": [
+                  { "value": "toilet_wash", "label": "Toilet / Wash" },
+                  { "value": "bathroom", "label": "Bathroom" },
+                  {
+                    "value": "kitchen_laundry_pantry",
+                    "label": "Kitchen / Laundry / Pantry"
+                  },
+                  { "value": "balcony", "label": "BALCONY" },
+                  { "value": "majlis", "label": "Majlis" },
+                  { "value": "dinning", "label": "Dinning" },
+                  { "value": "bedroom", "label": "Bedroom" },
+                  { "value": "living_room", "label": "Living Room" },
+                  { "value": "storage", "label": "Storage" },
+                  { "value": "lobby_hall", "label": "LOBBY/HALL" },
+                  { "value": "office", "label": "Office" },
+                  { "value": "gym", "label": "GYM" }
+                ]
+              },
+              {
+                "key": "unit",
+                "label": "Units",
+                "type": "select",
+                "options": [
+                  { "value": "sqm", "label": "SQ M" },
+                  { "value": "lm", "label": "L.M" },
+                  { "value": "nos", "label": "NOS" }
+                ]
+              },
+              { "key": "qty", "label": "Quantity", "type": "number" }
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "title": "Project Components",
+      "order": 4,
+      "fields": [
+        {
+          "label": "Project Components",
+          "key": "project_components",
+          "type": "multiselect",
+          "order": 1,
+          "options": [
+            { "value": "villa_block", "label": "VILLA BLOCK" },
+            { "value": "service_block", "label": "SERVICE BLOCK" },
+            { "value": "elec_room", "label": "ELEC ROOM" },
+            { "value": "boundary_wall", "label": "Boundary Wall" },
+            { "value": "garbage_room", "label": "GARBAGE ROOM" }
+          ]
+        },
+        {
+          "label": "VILLA BLOCK LEVELS",
+          "key": "villa_block_levels",
+          "type": "multiselect",
+          "order": 2,
+          "options": [
+            { "value": "basement", "label": "BASEMENT" },
+            { "value": "ground", "label": "GROUND FLOOR" },
+            { "value": "first", "label": "FIRST FLOOR" },
+            { "value": "roof", "label": "ROOF FLOOR" }
+          ]
+        },
+        {
+          "label": "Project Foundation",
+          "key": "project_foundation",
+          "type": "multiselect",
+          "order": 3,
+          "options": [
+            { "value": "piling", "label": "Piling Foundation" },
+            { "value": "isolated", "label": "Isolated Foundation" },
+            { "value": "strip", "label": "Strip Foundations" }
+          ]
+        },
+        {
+          "label": "Boundary Wall FINISHING",
+          "key": "boundary_wall_finishing",
+          "type": "multiselect",
+          "order": 4,
+          "options": [
+            { "value": "paint", "label": "PAINT" },
+            { "value": "stone", "label": "STONE" },
+            { "value": "al_cladding", "label": "ALUMINIUM CLADDING" }
+          ]
+        },
+        {
+          "label": "INTERIOR DESIGN",
+          "key": "interior_design",
+          "type": "multiselect",
+          "order": 5,
+          "options": [
+            { "value": "yes", "label": "YES" },
+            { "value": "no", "label": "NO" }
+          ]
+        },
+        {
+          "label": "ELEVATION FINISHING",
+          "key": "elevation_finishing",
+          "type": "multiselect",
+          "order": 6,
+          "options": [
+            { "value": "paint", "label": "PAINT" },
+            { "value": "stone", "label": "STONE" },
+            { "value": "al_cladding", "label": "ALUMINIUM CLADDING" }
+          ]
+        }
+      ]
+    },
+
+    {
+      "title": "Work Pricing",
+      "order": 5,
+      "fields": [
+        {
+          "label": "Finishes Pricing",
+          "key": "finishes_pricing",
+          "type": "table",
+          "order": 1,
+          "config": {
+            "columns": [
+              {
+                "key": "item",
+                "label": "Item",
+                "type": "select",
+                "options": [
+                  { "value": "granite_floor", "label": "Granite Floor" },
+                  { "value": "porcelain_floor", "label": "Porcelain Floor" },
+                  { "value": "ceramic_floor", "label": "Ceramic Floor" },
+                  { "value": "granite_skirting", "label": "Granite Skirting" },
+                  { "value": "ceramic_skirting", "label": "Ceramic Skirting" },
+                  {
+                    "value": "marble_tread_riser",
+                    "label": "Marble Tread and Riser"
+                  },
+                  {
+                    "value": "gypsum_work",
+                    "label": "Gypsum Works and Decorations"
+                  }
+                ]
+              },
+              {
+                "key": "pricing_type",
+                "label": "Pricing Type",
+                "type": "select",
+                "options": [
+                  { "value": "lump_sum", "label": "Lump Sum" },
+                  { "value": "detailed", "label": "Detailed" }
+                ]
+              },
+              { "key": "rate", "label": "Rate (AED)", "type": "number" },
+              {
+                "key": "unit",
+                "label": "Unit",
+                "type": "select",
+                "options": [
+                  { "value": "sqm", "label": "SQ M" },
+                  { "value": "lm", "label": "L.M" },
+                  { "value": "nos", "label": "NOS" }
+                ]
+              },
+              {
+                "key": "final_price",
+                "label": "Final Price (AED)",
+                "type": "number"
+              },
+              {
+                "key": "technical_notes",
+                "label": "Technical Notes",
+                "type": "text"
+              }
+            ]
+          }
+        },
+        {
+          "label": "Joinery / MEP / Aluminum & Steel / External Work",
+          "key": "other_pricing",
+          "type": "table",
+          "order": 2,
+          "config": {
+            "columns": [
+              {
+                "key": "category",
+                "label": "Category",
+                "type": "select",
+                "options": [
+                  { "value": "joinery", "label": "Joinery Works" },
+                  { "value": "mep", "label": "MEP" },
+                  { "value": "aluminum_steel", "label": "Aluminum and Steel" },
+                  { "value": "external_work", "label": "External Work" }
+                ]
+              },
+              { "key": "item", "label": "Item", "type": "text" },
+              {
+                "key": "pricing_type",
+                "label": "Pricing Type",
+                "type": "select",
+                "options": [
+                  { "value": "lump_sum", "label": "Lump Sum" },
+                  { "value": "detailed", "label": "Detailed" }
+                ]
+              },
+              { "key": "rate", "label": "Rate (AED)", "type": "number" },
+              {
+                "key": "unit",
+                "label": "Unit",
+                "type": "select",
+                "options": [
+                  { "value": "sqm", "label": "SQ M" },
+                  { "value": "lm", "label": "L.M" },
+                  { "value": "nos", "label": "NOS" }
+                ]
+              },
+              {
+                "key": "final_price",
+                "label": "Final Price (AED)",
+                "type": "number"
+              },
+              {
+                "key": "technical_notes",
+                "label": "Technical Notes",
+                "type": "text"
+              }
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "title": "Funding Sources",
+      "order": 6,
+      "fields": [
+        {
+          "label": "Funding",
+          "key": "funding",
+          "type": "table",
+          "order": 1,
+          "config": {
+            "columns": [
+              {
+                "key": "source",
+                "label": "Source",
+                "type": "select",
+                "options": [
+                  { "value": "cash", "label": "CASH" },
+                  { "value": "bank", "label": "BANK" }
+                ]
+              },
+              { "key": "amount", "label": "Amount (AED)", "type": "number" },
+              {
+                "key": "payment_details",
+                "label": "Payment Details",
+                "type": "text"
+              }
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "title": "Financial Summary",
+      "order": 7,
+      "fields": [
+        {
+          "label": "Enable Basic Consultation Fees",
+          "key": "enable_basic_consultation",
+          "type": "multiselect",
+          "order": 1,
+          "options": [{ "value": "on", "label": "Enable" }]
+        },
+        {
+          "label": "Basic Consultation Fee Rate (%)",
+          "key": "basic_consultation_rate",
+          "type": "number",
+          "order": 2
+        },
+        {
+          "label": "Fee Amount (AED)",
+          "key": "basic_fee_amount",
+          "type": "number",
+          "order": 3
+        },
+
+        {
+          "label": "Enable Additional Consultation Fees",
+          "key": "enable_additional_consultation",
+          "type": "multiselect",
+          "order": 4,
+          "options": [{ "value": "on", "label": "Enable" }]
+        },
+        {
+          "label": "Additional Fee Rate (%)",
+          "key": "additional_consultation_rate",
+          "type": "number",
+          "order": 5
+        },
+        {
+          "label": "Fee Amount (AED)",
+          "key": "additional_fee_amount",
+          "type": "number",
+          "order": 6
+        }
+      ]
+    },
+
+    {
+      "title": "File Attachments",
+      "order": 8,
+      "fields": [
+        {
+          "label": "Tender Drawing",
+          "key": "tender_drawing",
+          "type": "file",
+          "order": 1,
+          "config": { "multiple": true }
+        },
+        {
+          "label": "Vendor List",
+          "key": "vendor_list",
+          "type": "file",
+          "order": 2,
+          "config": { "multiple": true }
+        },
+        {
+          "label": "Material Table",
+          "key": "material_table",
+          "type": "file",
+          "order": 3,
+          "config": { "multiple": true }
+        },
+        {
+          "label": "Site Plan",
+          "key": "site_plan",
+          "type": "file",
+          "order": 4,
+          "config": { "multiple": true }
+        },
+        {
+          "label": "BOQ Template",
+          "key": "boq_template",
+          "type": "file",
+          "order": 5,
+          "config": { "multiple": true }
+        },
+        {
+          "label": "MEP Files",
+          "key": "mep_files",
+          "type": "file",
+          "order": 6,
+          "config": { "multiple": true }
+        },
+        {
+          "label": "Tender Invitation",
+          "key": "tender_invitation",
+          "type": "file",
+          "order": 7,
+          "config": { "multiple": true }
+        }
+      ]
+    }
+  ]
+}

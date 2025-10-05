@@ -18,8 +18,12 @@ urlpatterns = [
     path("api/accounts/", include("accounts.urls")),
     path("api/docs/", include("erp_system.api.docs_urls")),
     path("api/", include("suppliers.urls")),
+    path("api/", include("projects.urls")),
+    path("api/files/", include("files.api_urls")),          # ✅ REST API for files app
 
-
+    # ✅ Pre-Tender APIs (التطبيق الجديد)
+    # متركبة تحت بادئة ثابتة عشان ما يحصلش تعارض مع باقي الـ apps
+    path("api/pre-tender/", include("pre_tender.api_urls")),
 ]
 
 # Static/media for dev
